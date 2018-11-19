@@ -34,7 +34,7 @@ QtCharts::QChartView *  MainWindow::create_xy_chart(QtCharts::QLineSeries * sell
 
 
         //QSharedPointer<QtCharts::QChartView> chart_view;
-        QtCharts::QChartView *chart_view = new QtCharts::QChartView(chart);
+        auto *chart_view = new QtCharts::QChartView(chart);
         chart_view->setRenderHint(QPainter::Antialiasing);
         //chartView->show();
         chart_view->resize(820,600);

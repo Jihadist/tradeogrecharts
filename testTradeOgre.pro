@@ -27,10 +27,7 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        debug_func.cpp \
-        charts.cpp \
-    trogchart.cpp \
-    friend.cpp
+    trogchart.cpp
 
 HEADERS += \
         mainwindow.h \

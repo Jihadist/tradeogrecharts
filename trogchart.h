@@ -35,29 +35,28 @@ class TrogChart : public QMainWindow
     friend void json_to_series(QJsonObject &,QtCharts::QLineSeries *);
 public:
     explicit TrogChart(QWidget *parent = nullptr);
-    TrogChart()=default;
+   // TrogChart()=default;
     TrogChart(QtCharts::QChartView * cv,QtCharts::QLineSeries * b, QtCharts::QLineSeries * s):
         chart_view(cv),series_buy(b),series_sell(s){}
-    //TrogChart(QtCharts::QChartView * cv):chart_view(cv){}
-    //TrogChart(QtCharts::QChart *c):chart(c){}
+
     void set_pair(QString primary_coin="LTC",QString secondary_coin="TRTL")
     {
         axisX_title.append(primary_coin);
         axisY_title.append(secondary_coin);
     }
-    int array2point(const QByteArray&);
-
+    int array2point(const QByteArray&); //
+    void json_to_series(QJsonObject & object); // Перевод из джейсона в линии графика
+    void clear();
     TrogChart *create_chart();
 
 private:
-    //QtCharts::QChart * chart;//=new QtCharts::QChart;
-    QtCharts::QChartView * chart_view=new QtCharts::QChartView;
-    QtCharts::QLineSeries * series_buy=new QtCharts::QLineSeries;
-    QtCharts::QLineSeries * series_sell=new QtCharts::QLineSeries;
+    QtCharts::QChartView  chart_view; // Графика
+    QtCharts::QLineSeries  series_buy; // Линия покупки
+    QtCharts::QLineSeries  series_sell; // Линия продажи
 
-    QString axisX_title="price ";
-    QString axisY_title="amount ";
-    QString main_title="Tradeogre Orders Chart";
+    QString axisX_title="price "; // Строка цены
+    QString axisY_title="amount "; // Строка количества
+    const QString main_title="Tradeogre Orders Chart"; // Строка названия графика
 signals:
 
 public slots:

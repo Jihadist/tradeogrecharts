@@ -12,7 +12,7 @@ void json_to_series(QJsonObject & object,QtCharts::QLineSeries * ser)
         qDebug()<<iter.key().toDouble()<<iter.value().toString().toDouble();
         ser->append(iter.key().toDouble(),iter.value().toString().toDouble());
         //qDebug()<<iter.key();
-        //qDebug()<<QString::number(iter.value().toString().toDouble(),'f',8);
+        qDebug()<<QString::number(iter.value().toString().toDouble(),'f',8);
         ++iter;
     }
 }
