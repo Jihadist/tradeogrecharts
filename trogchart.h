@@ -44,7 +44,7 @@ public:
         axisX_title.append(primary_coin);
         axisY_title.append(secondary_coin);
     }
-    int array2point(const QByteArray&); //
+    int array2point(const QByteArray&); // Ненужная функция
     void json_to_series(QJsonObject & object); // Перевод из джейсона в линии графика
     void clear();
     TrogChart *create_chart();

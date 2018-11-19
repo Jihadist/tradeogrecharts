@@ -21,33 +21,37 @@ void TrogChart::receiveResponseFromAnotherClass(const QByteArray& arg)
 int TrogChart::array2point(const QByteArray& array)
 {
     qDebug()<<QString(array);
-    QJsonDocument * document=new QJsonDocument(QJsonDocument::fromJson(array));
+    QJsonDocument document=QJsonDocument(QJsonDocument::fromJson(array));
 
     qDebug()<<"/n"<<"hello";
-    QJsonObject * root=new QJsonObject(document->object());
+    QJsonObject root=QJsonObject(document.object());
 
-    qDebug()<<root->keys().at(0); // Выводит название первого объекта(покупка)
-    qDebug()<<root->keys().at(1); // Выводит название второго объекта(продажа)
+    qDebug()<<root.keys().at(0); // Выводит название первого объекта(покупка)
+    qDebug()<<root.keys().at(1); // Выводит название второго объекта(продажа)
 
-    QJsonValue * result=new QJsonValue(root->value("success"));
+    QJsonValue result=QJsonValue(root.value("success"));
 
-    qDebug()<<result->toString();
-    if (*result=="false")
+    qDebug()<<result.toString();
+    if (result=="false")
         return -1;
     series_buy.clear();
     series_sell.clear();
-    json_to_series(*root);
+    json_to_series(root);
 
-    delete document;
-    delete result;
-    delete root;
+    //delete document;
+    //delete result;
+    //delete root;
     return 1;
 }
 
 TrogChart * TrogChart::create_chart()
 {
-    chart_view.chart()->addSeries(&series_sell); // Добавим на график комплект продажи
-    chart_view.chart()->addSeries(&series_buy); // Добавим на график комплект покупки
+    qDebug()<<chart_view.chart()->series().count();
+    if (chart_view.chart()->series().isEmpty())
+    {
+        chart_view.chart()->addSeries(&series_sell); // Добавим на график комплект продажи
+        chart_view.chart()->addSeries(&series_buy); // Добавим на график комплект покупки
+    }
     qDebug()<<"Attached axes: "<<series_buy.attachedAxes().size();
     if (series_buy.attachedAxes().empty()) // Если нет прикрепленных осей, то создадим стандартные
         chart_view.chart()->createDefaultAxes();
@@ -68,20 +72,20 @@ void TrogChart::json_to_series(QJsonObject & object)
     qDebug()<<"Object:"<<object;
     if (object.value("buy").isObject())
     {
-        QJsonObject * buy_object=new QJsonObject(object.value("buy").toObject());
+        QJsonObject buy_object=QJsonObject(object.value("buy").toObject());
         qDebug()<<"Buy object is transfering from json"<<&series_buy;
-        QJsonObject::Iterator * iter=new QJsonObject::Iterator(buy_object->begin());
-        while(*iter!=buy_object->end())
+        QJsonObject::Iterator iter=QJsonObject::Iterator(buy_object.begin());
+        while(iter!=buy_object.end())
         {
-            qDebug()<<iter->key().toDouble()<<iter->value().toString().toDouble();
-            series_buy.append(iter->key().toDouble(),iter->value().toString().toDouble());
-            ++*iter;
+            qDebug()<<iter.key().toDouble()<<iter.value().toString().toDouble();
+            series_buy.append(iter.key().toDouble(),iter.value().toString().toDouble());
+            ++iter;
         }
         qDebug()<<"Buy object was transfered from json";
         series_buy.setColor(QColor(34, 168, 38, 255));
         // 34 168 38 for buy
-        delete buy_object;
-        delete iter;
+        //delete buy_object;
+        //delete iter;
     }
     if (object.value("sell").isObject())
     {
