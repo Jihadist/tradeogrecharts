@@ -31,10 +31,10 @@ void MainWindow::on_plainTextEdit_textChanged()
 
 void MainWindow::getResponse(QNetworkReply *reply)
 {
-    QByteArray answer=reply->readAll(); // Получение ответа
-    ui->plainTextEdit->setPlainText(answer); // Вывод ответа на экран
+    //QByteArray answer=reply->readAll(); // Получение ответа
+    //ui->plainTextEdit->setPlainText(reply->readAll()); // Вывод ответа на экран
     qDebug()<<"Response received";
-    emit sendResponseToAnotherClass(answer); // Посылаем сигнал, что ответ получен
+    emit sendResponseToAnotherClass(reply->readAll()); // Посылаем сигнал, что ответ получен
 
 }
 

@@ -24,6 +24,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+QMAKE_CXXFLAGS +=-static-libgcc -static-libstdc++ -ggdb
+
 SOURCES += \
         main.cpp \
         mainwindow.cpp \

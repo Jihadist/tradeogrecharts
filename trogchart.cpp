@@ -15,7 +15,9 @@ void TrogChart::receiveResponseFromAnotherClass(const QByteArray& arg)
         qDebug()<<"Something went wrong with TrogChart::array2point";
     create_chart();
     qDebug()<<"Creating chart was completed";
-    chart_view.show();
+    //if (!chart_view.isVisible())
+    if (chart_view.isHidden())
+        chart_view.show();
 }
 
 int TrogChart::array2point(const QByteArray& array)
