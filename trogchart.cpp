@@ -22,6 +22,7 @@ void TrogChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
     chart_view.update();
   else
     chart_view.show();
+  arg->deleteLater();
 }
 
 int TrogChart::array2point(const QByteArray &array) {
@@ -83,7 +84,8 @@ void TrogChart::json_to_series(QJsonObject &object) {
     qDebug() << "Buy object is transfering from json" << &series_buy;
     QJsonObject::Iterator iter = QJsonObject::Iterator(buy_object.begin());
     while (iter != buy_object.end()) {
-      qDebug() << iter.key().toDouble() << iter.value().toString().toDouble();
+      // qDebug() << iter.key().toDouble() <<
+      // iter.value().toString().toDouble();
       series_buy.append(iter.key().toDouble(),
                         iter.value().toString().toDouble());
       ++iter;
@@ -99,7 +101,8 @@ void TrogChart::json_to_series(QJsonObject &object) {
     qDebug() << "Sell object is transfering from json";
     auto iter = sell_object.begin();
     while (iter != sell_object.end()) {
-      qDebug() << iter.key().toDouble() << iter.value().toString().toDouble();
+      // qDebug() << iter.key().toDouble() <<
+      // iter.value().toString().toDouble();
       series_sell.append(iter.key().toDouble(),
                          iter.value().toString().toDouble());
       qDebug() << "appended";

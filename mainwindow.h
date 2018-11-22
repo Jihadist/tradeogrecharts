@@ -63,7 +63,7 @@ private:
   Ui::MainWindow *ui;
   // int Document2point(QByteArray, QtCharts::QLineSeries * series_buy,
   // QtCharts::QLineSeries *series_sell);
-
+  // void delete_pointer(QNetworkReply *arg) { arg->deleteLater(); }
   // QtCharts::QChartView * create_xy_chart(QtCharts::QLineSeries * sell,
   // QtCharts::QLineSeries *buy, const QString& x_title, const QString& y_title,
   // const QString& main_title);

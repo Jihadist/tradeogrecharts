@@ -13,7 +13,13 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::on_pushButton_clicked() {
-  mngr.get(request); // Отправка get запроса
+  auto test = mngr.get(request); // Отправка get запроса
+  // test=mngr.get(request);                             // test->deleteLater();
+  // if (test->isFinished()) {
+  // qDebug() << "Reply is finished";
+  // delete test;
+  // delete_pointer(test);
+  //}
 }
 
 void MainWindow::on_plainTextEdit_textChanged() {}
