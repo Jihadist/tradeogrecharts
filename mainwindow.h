@@ -1,37 +1,36 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QApplication>
 #include <QChartView>
-#include <QLineSeries>
+#include <QColor>
 #include <QDateTime>
 #include <QDateTimeAxis>
-#include <QValueAxis>
-#include <QPen>
-#include <QColor>
+#include <QLineSeries>
+#include <QMainWindow>
 #include <QMargins>
+#include <QPen>
+#include <QValueAxis>
 
 #include <QNetworkAccessManager>
-#include <QUrl>
 #include <QNetworkReply>
+#include <QUrl>
 
+#include <QByteArray>
+#include <QString>
 #include <QTextCodec>
 #include <QTextStream>
-#include <QString>
-#include <QByteArray>
 
 #include <QProgressDialog>
 
 #include <QFile>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 
 #include <QDebug>
 
 #include <QtSql>
-
 
 namespace Ui {
 class MainWindow;
@@ -39,36 +38,35 @@ class MainWindow;
 
 class TrogChart;
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
-    //void friend json_to_series(QJsonObject &,QtCharts::QLineSeries *);
+class MainWindow : public QMainWindow {
+  Q_OBJECT
+  // void friend json_to_series(QJsonObject &,QtCharts::QLineSeries *);
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-    void static json_to_series(QJsonObject & object,QtCharts::QLineSeries * ser);
+  explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
+  void static json_to_series(QJsonObject &object, QtCharts::QLineSeries *ser);
 
-    QNetworkAccessManager mngr;
-    QNetworkRequest request=QNetworkRequest(QUrl("https://tradeogre.com/api/v1/orders/LTC-TRTL"));
+  QNetworkAccessManager mngr;
+  QNetworkRequest request =
+      QNetworkRequest(QUrl("https://tradeogre.com/api/v1/orders/LTC-TRTL"));
 signals:
-    void sendResponseToAnotherClass(const QByteArray& arg);
+  // void sendResponseToAnotherClass(const QByteArray &arg);
 public slots:
-    void on_pushButton_clicked();
+  void on_pushButton_clicked();
 
 private slots:
 
-    void getResponse(QNetworkReply *reply);
-    void on_plainTextEdit_textChanged();
-
-
+  // void getResponse(QNetworkReply *reply);
+  void on_plainTextEdit_textChanged();
 
 private:
-    Ui::MainWindow *ui;
-    //int Document2point(QByteArray, QtCharts::QLineSeries * series_buy, QtCharts::QLineSeries *series_sell);
-
-    //QtCharts::QChartView * create_xy_chart(QtCharts::QLineSeries * sell, QtCharts::QLineSeries *buy, const QString& x_title, const QString& y_title, const QString& main_title);
-
-
+  Ui::MainWindow *ui;
+  // int Document2point(QByteArray, QtCharts::QLineSeries * series_buy,
+  // QtCharts::QLineSeries *series_sell);
+  // void delete_pointer(QNetworkReply *arg) { arg->deleteLater(); }
+  // QtCharts::QChartView * create_xy_chart(QtCharts::QLineSeries * sell,
+  // QtCharts::QLineSeries *buy, const QString& x_title, const QString& y_title,
+  // const QString& main_title);
 };
 
 #endif // MAINWINDOW_H
