@@ -1,57 +1,30 @@
-#include "trogchart.h"
+#include "tradeogrechart.h"
 
-<<<<<<< HEAD
-TrogChart::TrogChart(QWidget *parent) : QMainWindow(parent)
-{
-}
+TradeOgreChart::TradeOgreChart(QWidget *parent) : QMainWindow(parent) {}
 
-void TrogChart::receiveResponseFromAnotherClass(const QByteArray& arg)
-{
-
-    chart_view.repaint(); //
-
-    if (array2point(arg)) //
-        qDebug()<<"Array2point was completed";
-    else
-        qDebug()<<"Something went wrong with TrogChart::array2point";
-    create_chart();
-    qDebug()<<"Creating chart was completed";
-    //if (!chart_view.isVisible())
-    if (chart_view.isHidden())
-        chart_view.show();
-=======
-TrogChart::TrogChart(QWidget *parent) : QMainWindow(parent) {}
-
-void TrogChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
-
-  // chart_view.repaint(); //
+void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
 
   if (array2point(arg->readAll())) //
     qDebug() << "Array2point was completed";
   else
     qDebug() << "Something went wrong with TrogChart::array2point";
-  // delete arg;
-  // arg->
-  // arg->deleteLater();
-  // arg->close();
+
   create_chart();
   qDebug() << "Creating chart was completed";
-  // if (chart_view.isHidden())
-  // chart_view.show()
+
   if (chart_view.isVisible())
     chart_view.update();
   else
     chart_view.show();
   arg->deleteLater();
->>>>>>> 9ab7596fa308c69f4010ac3855fc925636ee2c82
+
 }
 
-int TrogChart::array2point(const QByteArray &array) {
-  qDebug() << QString(array);
+int TradeOgreChart::array2point(const QByteArray &array) {
+  //qDebug() << QString(array);
   QJsonDocument document = QJsonDocument(QJsonDocument::fromJson(array));
 
-  qDebug() << "/n"
-           << "hello";
+  qDebug() << "/n"<< "hello";
   QJsonObject root = QJsonObject(document.object());
 
   qDebug() << root.keys().at(0); // Выводит название первого объекта(покупка)
@@ -65,14 +38,10 @@ int TrogChart::array2point(const QByteArray &array) {
   series_buy.clear();
   series_sell.clear();
   json_to_series(root);
-
-  // delete document;
-  // delete result;
-  // delete root;
   return 1;
 }
 
-TrogChart *TrogChart::create_chart() {
+TradeOgreChart *TradeOgreChart::create_chart() {
   qDebug() << chart_view.chart()->series().count();
   if (chart_view.chart()->series().isEmpty()) {
     chart_view.chart()->addSeries(
@@ -98,7 +67,7 @@ TrogChart *TrogChart::create_chart() {
   return this;
 }
 
-void TrogChart::json_to_series(QJsonObject &object) {
+void TradeOgreChart::json_to_series(QJsonObject &object) {
   qDebug() << "Object:" << object;
   if (object.value("buy").isObject()) {
     QJsonObject buy_object = QJsonObject(object.value("buy").toObject());
@@ -126,7 +95,7 @@ void TrogChart::json_to_series(QJsonObject &object) {
       // iter.value().toString().toDouble();
       series_sell.append(iter.key().toDouble(),
                          iter.value().toString().toDouble());
-      qDebug() << "appended";
+      //qDebug() << "appended";
       ++iter;
     }
     // json_to_series(sell_object,series_sell);
@@ -136,4 +105,4 @@ void TrogChart::json_to_series(QJsonObject &object) {
   }
 }
 
-void TrogChart::clear() {}
+void TradeOgreChart::clear() {}

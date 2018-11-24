@@ -29,14 +29,14 @@
 
 //#include "mainwindow.h"
 
-class TrogChart : public QMainWindow {
+class TradeOgreChart : public QMainWindow {
   Q_OBJECT
   friend void json_to_series(QJsonObject &, QtCharts::QLineSeries *);
 
 public:
-  explicit TrogChart(QWidget *parent = nullptr);
+  explicit TradeOgreChart(QWidget *parent = nullptr);
   // TrogChart()=default;
-  TrogChart(QtCharts::QChartView *cv, QtCharts::QLineSeries *b,
+  TradeOgreChart(QtCharts::QChartView *cv, QtCharts::QLineSeries *b,
             QtCharts::QLineSeries *s)
       : chart_view(cv), series_buy(b), series_sell(s) {}
 
@@ -48,7 +48,7 @@ public:
   void
   json_to_series(QJsonObject &object); // Перевод из джейсона в линии графика
   void clear();
-  TrogChart *create_chart();
+  TradeOgreChart *create_chart();
 
 private:
   QtCharts::QChartView chart_view;   // Графика

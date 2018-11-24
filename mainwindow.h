@@ -32,15 +32,18 @@
 
 #include <QtSql>
 
+#include "network.h"
+
 namespace Ui {
 class MainWindow;
 }
 
-class TrogChart;
+class TradeOgreChart;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
   // void friend json_to_series(QJsonObject &,QtCharts::QLineSeries *);
+    //friend class Network;
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
