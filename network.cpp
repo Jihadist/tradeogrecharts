@@ -38,11 +38,11 @@ void Network::getResponse(QNetworkReply *reply)
     }
     else
     {
-            qDebug()<<"Everything works"<<reply->readAll();
         switch (domenList.indexOf(reply->url().host()))
         {
         case 0: qDebug()<<"Host is tradegore";
             emit responseFromTradeogre(reply);
+
             break;
         case 1: qDebug()<<"Host is bilaxy";
             //emit responseFromBilaxy(reply);

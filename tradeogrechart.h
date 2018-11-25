@@ -29,9 +29,9 @@
 
 //#include "mainwindow.h"
 
-class TradeOgreChart : public QMainWindow {
+class TradeOgreChart : public QWidget {
   Q_OBJECT
-  friend void json_to_series(QJsonObject &, QtCharts::QLineSeries *);
+  //friend void json_to_series(QJsonObject &, QtCharts::QLineSeries *);
 
 public:
   explicit TradeOgreChart(QWidget *parent = nullptr);
@@ -63,6 +63,7 @@ signals:
 
 public slots:
   void receiveResponseFromAnotherClass(QNetworkReply *);
+  int receiveJsonFromAnotherClass(QJsonDocument);
 };
 
 #endif // TROGCHART_H

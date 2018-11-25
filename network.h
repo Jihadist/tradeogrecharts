@@ -7,6 +7,8 @@
 #include <QSslError>
 #include <QUrl>
 
+#include <QJsonDocument>
+
 
 
 class Network : public QObject
@@ -23,6 +25,7 @@ private:
 signals:
     void responseFromTradeogre(QNetworkReply *reply);
     void responseFromBilaxy(QNetworkReply *reply);
+    void jsonFromTradeogre(QJsonDocument);
 
 public slots:
     void getResponse(QNetworkReply *reply);

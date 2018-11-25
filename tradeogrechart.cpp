@@ -1,9 +1,9 @@
 #include "tradeogrechart.h"
 
-TradeOgreChart::TradeOgreChart(QWidget *parent) : QMainWindow(parent) {}
+TradeOgreChart::TradeOgreChart(QWidget *parent) : QWidget(parent) {}
 
 void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
-
+    //qDebug()<<arg->readAll()<<"arg was is";
   if (array2point(arg->readAll())) //
     qDebug() << "Array2point was completed";
   else
@@ -20,11 +20,38 @@ void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
 
 }
 
+int TradeOgreChart::receiveJsonFromAnotherClass(QJsonDocument document)
+{
+    qDebug() <<"Here is QJsonDocument from array2point"<<document;
+    QJsonObject root = QJsonObject(document.object());
+
+    qDebug() << root.keys().at(0); // Выводит название первого объекта(покупка)
+    qDebug() << root.keys().at(1); // Выводит название второго объекта(продажа)
+
+    QJsonValue result = QJsonValue(root.value("success"));
+
+    qDebug() << result.toString();
+    if (result == "false")
+      return -1;
+    series_buy.clear();
+    series_sell.clear();
+    json_to_series(root);
+    create_chart();
+    qDebug() << "Creating chart was completed";
+
+    if (chart_view.isVisible())
+      chart_view.update();
+    else
+      chart_view.show();
+    return 1;
+
+}
+
 int TradeOgreChart::array2point(const QByteArray &array) {
   //qDebug() << QString(array);
   QJsonDocument document = QJsonDocument(QJsonDocument::fromJson(array));
 
-  qDebug() << "/n"<< "hello";
+  qDebug() <<"Here is QJsonDocument from array2point"<<document;
   QJsonObject root = QJsonObject(document.object());
 
   qDebug() << root.keys().at(0); // Выводит название первого объекта(покупка)
@@ -42,7 +69,7 @@ int TradeOgreChart::array2point(const QByteArray &array) {
 }
 
 TradeOgreChart *TradeOgreChart::create_chart() {
-  qDebug() << chart_view.chart()->series().count();
+  //qDebug() << chart_view.chart()->series().count();
   if (chart_view.chart()->series().isEmpty()) {
     chart_view.chart()->addSeries(
         &series_sell); // Добавим на график комплект продажи
@@ -68,7 +95,7 @@ TradeOgreChart *TradeOgreChart::create_chart() {
 }
 
 void TradeOgreChart::json_to_series(QJsonObject &object) {
-  qDebug() << "Object:" << object;
+  qDebug() << "Here is QJsonObject from json_to_series:" << object;
   if (object.value("buy").isObject()) {
     QJsonObject buy_object = QJsonObject(object.value("buy").toObject());
     qDebug() << "Buy object is transfering from json" << &series_buy;
@@ -98,7 +125,6 @@ void TradeOgreChart::json_to_series(QJsonObject &object) {
       //qDebug() << "appended";
       ++iter;
     }
-    // json_to_series(sell_object,series_sell);
     qDebug() << "Sell object was transfered from json";
     series_sell.setColor(QColor(168, 34, 38, 255));
     // 168 34 38 for sell
