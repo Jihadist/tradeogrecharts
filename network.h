@@ -25,7 +25,7 @@ private:
 signals:
     void responseFromTradeogre(QNetworkReply *reply);
     void responseFromBilaxy(QNetworkReply *reply);
-    void jsonFromTradeogre(QJsonDocument);
+    //void jsonFromTradeogre(QJsonDocument);
 
 public slots:
     void getResponse(QNetworkReply *reply);

@@ -30,12 +30,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     tradeogrechart.cpp \
-    network.cpp
+    network.cpp \
+    bilaxychart.cpp
 
 HEADERS += \
         mainwindow.h \
     tradeogrechart.h \
-    network.h
+    network.h \
+    bilaxychart.h
 
 FORMS += \
         mainwindow.ui

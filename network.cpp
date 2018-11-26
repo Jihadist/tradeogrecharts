@@ -45,7 +45,7 @@ void Network::getResponse(QNetworkReply *reply)
 
             break;
         case 1: qDebug()<<"Host is bilaxy";
-            //emit responseFromBilaxy(reply);
+            emit responseFromBilaxy(reply);
             break;
         default: qDebug()<<"I don't know this host";
             reply->deleteLater();

@@ -31,7 +31,6 @@
 
 class TradeOgreChart : public QWidget {
   Q_OBJECT
-  //friend void json_to_series(QJsonObject &, QtCharts::QLineSeries *);
 
 public:
   explicit TradeOgreChart(QWidget *parent = nullptr);

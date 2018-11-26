@@ -3,8 +3,8 @@
 TradeOgreChart::TradeOgreChart(QWidget *parent) : QWidget(parent) {}
 
 void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
-    //qDebug()<<arg->readAll()<<"arg was is";
-  if (array2point(arg->readAll())) //
+
+  if (array2point(arg->readAll()))
     qDebug() << "Array2point was completed";
   else
     qDebug() << "Something went wrong with TrogChart::array2point";
@@ -15,7 +15,7 @@ void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
   if (chart_view.isVisible())
     chart_view.update();
   else
-    chart_view.show();
+   chart_view.show();
   arg->deleteLater();
 
 }
@@ -42,7 +42,7 @@ int TradeOgreChart::receiveJsonFromAnotherClass(QJsonDocument document)
     if (chart_view.isVisible())
       chart_view.update();
     else
-      chart_view.show();
+      //chart_view.show();// Disable for debug!!!!!!!!!!!!!!!!
     return 1;
 
 }
@@ -51,7 +51,7 @@ int TradeOgreChart::array2point(const QByteArray &array) {
   //qDebug() << QString(array);
   QJsonDocument document = QJsonDocument(QJsonDocument::fromJson(array));
 
-  qDebug() <<"Here is QJsonDocument from array2point"<<document;
+  //qDebug() <<"Here is QJsonDocument from array2point"<<document;
   QJsonObject root = QJsonObject(document.object());
 
   qDebug() << root.keys().at(0); // Выводит название первого объекта(покупка)
@@ -95,7 +95,7 @@ TradeOgreChart *TradeOgreChart::create_chart() {
 }
 
 void TradeOgreChart::json_to_series(QJsonObject &object) {
-  qDebug() << "Here is QJsonObject from json_to_series:" << object;
+  //qDebug() << "Here is QJsonObject from json_to_series:" << object;
   if (object.value("buy").isObject()) {
     QJsonObject buy_object = QJsonObject(object.value("buy").toObject());
     qDebug() << "Buy object is transfering from json" << &series_buy;

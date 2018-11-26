@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "tradeogrechart.h"
 #include "network.h"
+#include "bilaxychart.h"
 #include <QApplication>
 #include <QSharedPointer>
 
@@ -10,6 +11,9 @@ int main(int argc, char *argv[]) {
   w.show();
   QSharedPointer<TradeOgreChart> p =
       QSharedPointer<TradeOgreChart>(new TradeOgreChart, &QObject::deleteLater);
+  QSharedPointer<bilaxychart> b =
+      QSharedPointer<bilaxychart>(new bilaxychart, &QObject::deleteLater);
+
 
  // QObject::connect(&w.mngr, &QNetworkAccessManager::finished, p.get(),
    //                &TradeOgreChart::receiveResponseFromAnotherClass);
@@ -25,6 +29,8 @@ int main(int argc, char *argv[]) {
   t1.start();*/
   w.on_pushButton_clicked();
   Network bilaxy;
+  QObject::connect(&bilaxy,&Network::responseFromBilaxy,
+                   b.get(),&bilaxychart::receiveResponseFromAnotherClass);
   bilaxy.setUrl("https://api.bilaxy.com/v1/depth?symbol=117");
   Network tradeogre;
   QObject::connect(&tradeogre,&Network::responseFromTradeogre,
