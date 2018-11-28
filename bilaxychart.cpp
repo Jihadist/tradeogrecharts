@@ -7,6 +7,36 @@ bilaxychart::bilaxychart(QWidget *parent) : QWidget(parent)
 
 void bilaxychart::json_to_series(QJsonObject &object)
 {
+    int diveder=1;
+    // here u can provide diveder which u want to use
+    int coin=1;
+    switch (coin)
+    {
+    case 1:
+        // satoshi
+        diveder=10e7;
+        if (seriesBuy.attachedAxes().empty())
+            axisxTitle.append(" (Satoshi)");
+        break;
+    case 2:
+        // mBTC
+        diveder=10e5;
+        if (seriesBuy.attachedAxes().empty())
+            axisxTitle.append(" (mBTC)");
+        break;
+    case 3:
+        // µBTC
+        diveder=10e2;
+        if (seriesBuy.attachedAxes().empty())
+            axisxTitle.append(" (µBTC)");
+        break;
+    default:
+        // btc
+        if (seriesBuy.attachedAxes().empty())
+            axisxTitle.append(" (BTC)");
+        break;
+
+    }
     qDebug() << "Here is QJsonObject from bilaxychart::json_to_series:" << object;
     if (object.value("bids").isArray())
     {
@@ -22,7 +52,7 @@ void bilaxychart::json_to_series(QJsonObject &object)
           // Если элемент массива меньше 5*элемента минимума
           if (array.toArray().at(0).toDouble()>5*buyArray.last().toArray().at(0).toDouble())
           {
-            seriesBuy.append(array.toArray().at(0).toDouble(),array.toArray().at(1).toDouble());
+            seriesBuy.append(array.toArray().at(0).toDouble()*diveder,array.toArray().at(1).toDouble());
             counter++;
           }
       }
@@ -40,7 +70,7 @@ void bilaxychart::json_to_series(QJsonObject &object)
       qDebug()<<"First element(min):"<<min;
       qDebug()<<"Last element(max): "<<sellArray.last().toArray().first().toDouble();
       qDebug()<<"Counts"<<sellArray.count();
-      int counter = 0;
+      int counter = 0; // Счетчик количества элементов
 
       for (auto array:sellArray)
       {
@@ -48,7 +78,7 @@ void bilaxychart::json_to_series(QJsonObject &object)
           if (array.toArray().at(0).toDouble()<sellArray.at(20).toArray().at(0).toDouble()/2)
          {
               qDebug()<<array.toArray().at(0).toDouble();
-             seriesSell.append(array.toArray().at(0).toDouble(),array.toArray().at(1).toDouble());
+             seriesSell.append(array.toArray().at(0).toDouble()*diveder,array.toArray().at(1).toDouble());
             counter++;
           }
       }
@@ -69,17 +99,15 @@ bilaxychart *bilaxychart::createChart()
           &seriesBuy); // Добавим на график комплект покупки
     }
     qDebug() << "Attached axes: " << seriesBuy.attachedAxes().size();
-    if (seriesBuy.attachedAxes()
-            .empty()) // Если нет прикрепленных осей, то создадим стандартные
-      chartView.chart()->createDefaultAxes();
-    seriesSell.attachedAxes().first()->setTitleText(
-        axisxTitle); // Задает имя по горизонтали
-    seriesSell.attachedAxes().back()->setTitleText(
-        axisyTitle); // Задает имя по вертикали
+    if (seriesBuy.attachedAxes().empty()) // Если нет прикрепленных осей, то создадим стандартные
+    {
+        chartView.chart()->createDefaultAxes(); // Создаем оси
+        seriesSell.attachedAxes().first()->setTitleText(axisxTitle); // Задает имя по горизонтали
+        seriesSell.attachedAxes().back()->setTitleText(axisyTitle); // Задает имя по вертикали
 
-    qDebug() << "Attached axes: " << seriesBuy.attachedAxes().size();
-    chartView.chart()->setTitle(mainTitle); // Задает имя графика
-
+        qDebug() << "Attached axes: " << seriesBuy.attachedAxes().size();
+        chartView.chart()->setTitle(mainTitle); // Задает имя графика
+    }
     chartView.setRenderHint(QPainter::Antialiasing);
     chartView.resize(820, 600);
     qDebug() << "success";
@@ -113,7 +141,13 @@ int bilaxychart::receiveResponseFromAnotherClass(QNetworkReply * arg)
     if (chartView.isVisible())
       chartView.update();
     else
+    {
+      seriesBuy.setName("Buy");
+      seriesSell.setName("Sell");
+      dynamic_cast<QtCharts::QValueAxis *>(chartView.chart()->axisY())->setTickCount(20);
+      dynamic_cast<QtCharts::QValueAxis *>(chartView.chart()->axisX())->setTickCount(20);
       chartView.show();
+    }
     arg->deleteLater();
     return 1;
 }

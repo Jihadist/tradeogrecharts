@@ -23,7 +23,7 @@ void Network::sendRequest()
 
 }
 
-void Network::getResponse(QNetworkReply *reply)
+ void Network::getResponse(QNetworkReply *reply)
 {
     auto statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
     if (!statusCode.isValid())

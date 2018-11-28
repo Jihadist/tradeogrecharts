@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtCharts>
+#include <QValueAxis>
 
 #include <QNetworkReply>
 
@@ -37,6 +38,8 @@ private:
     QString axisyTitle = "amount "; // Строка количества
     const QString mainTitle =
         "Bilaxy Orders Chart"; // Строка названия графика
+    void chooseDivider(); //
+
 signals:
 
 public slots:

@@ -43,15 +43,17 @@ class TradeOgreChart;
 class MainWindow : public QMainWindow {
   Q_OBJECT
   // void friend json_to_series(QJsonObject &,QtCharts::QLineSeries *);
-    //friend class Network;
+    friend class Network;
 public:
   explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
   void static json_to_series(QJsonObject &object, QtCharts::QLineSeries *ser);
 
   QNetworkAccessManager mngr;
-  QNetworkRequest request =
-      QNetworkRequest(QUrl("https://tradeogre.com/api/v1/orders/LTC-TRTL"));
+  QNetworkRequest request;
+
+
+
 signals:
   // void sendResponseToAnotherClass(const QByteArray &arg);
 public slots:
@@ -60,16 +62,13 @@ public slots:
 private slots:
 
   // void getResponse(QNetworkReply *reply);
+  //friend void Network::getResponse(QNetworkReply *reply);
+  //friend void Network::setUrl(const QString& url);
   void on_plainTextEdit_textChanged();
 
 private:
   Ui::MainWindow *ui;
-  // int Document2point(QByteArray, QtCharts::QLineSeries * series_buy,
-  // QtCharts::QLineSeries *series_sell);
-  // void delete_pointer(QNetworkReply *arg) { arg->deleteLater(); }
-  // QtCharts::QChartView * create_xy_chart(QtCharts::QLineSeries * sell,
-  // QtCharts::QLineSeries *buy, const QString& x_title, const QString& y_title,
-  // const QString& main_title);
+
 };
 
 #endif // MAINWINDOW_H
