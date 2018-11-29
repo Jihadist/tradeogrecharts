@@ -7,24 +7,24 @@ bilaxychart::bilaxychart(QWidget *parent) : QWidget(parent)
 
 void bilaxychart::json_to_series(QJsonObject &object)
 {
-    int diveder=1;
+    unsigned int diveder=1;
     // here u can provide diveder which u want to use
-    int coin=1;
+    const unsigned char coin=7;
     switch (coin)
     {
-    case 1:
+    case 7:
         // satoshi
         diveder=10e7;
         if (seriesBuy.attachedAxes().empty())
             axisxTitle.append(" (Satoshi)");
         break;
-    case 2:
+    case 5:
         // mBTC
         diveder=10e5;
         if (seriesBuy.attachedAxes().empty())
             axisxTitle.append(" (mBTC)");
         break;
-    case 3:
+    case 2:
         // µBTC
         diveder=10e2;
         if (seriesBuy.attachedAxes().empty())
@@ -37,13 +37,14 @@ void bilaxychart::json_to_series(QJsonObject &object)
         break;
 
     }
-    qDebug() << "Here is QJsonObject from bilaxychart::json_to_series:" << object;
+    //qDebug() << "Here is QJsonObject from bilaxychart::json_to_series:" << object;
     if (object.value("bids").isArray())
     {
       auto buyArray = QJsonArray(object.value("bids").toArray());
       qDebug() << "Buy array is transfering from json" << &seriesBuy;
-      double max=buyArray.first().toArray().at(0).toDouble();
+      double *max=new double(buyArray.first().toArray().at(0).toDouble());
       qDebug()<<"First element(max): "<<max;
+      delete max;
       qDebug()<<"Last element(min): "<<buyArray.last().toArray().at(0).toDouble();
       qDebug()<<"Counts"<<buyArray.count();
       int counter = 0;
@@ -53,7 +54,7 @@ void bilaxychart::json_to_series(QJsonObject &object)
           if (array.toArray().at(0).toDouble()>5*buyArray.last().toArray().at(0).toDouble())
           {
             seriesBuy.append(array.toArray().at(0).toDouble()*diveder,array.toArray().at(1).toDouble());
-            counter++;
+            ++counter;
           }
       }
       qDebug() << "Buy object was transfered from json";
@@ -77,7 +78,7 @@ void bilaxychart::json_to_series(QJsonObject &object)
           // Если элемент массива меньше 20 элемента массива
           if (array.toArray().at(0).toDouble()<sellArray.at(20).toArray().at(0).toDouble()/2)
          {
-              qDebug()<<array.toArray().at(0).toDouble();
+              //qDebug()<<array.toArray().at(0).toDouble();
              seriesSell.append(array.toArray().at(0).toDouble()*diveder,array.toArray().at(1).toDouble());
             counter++;
           }

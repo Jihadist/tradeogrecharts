@@ -100,24 +100,24 @@ TradeOgreChart *TradeOgreChart::createChart() {
 }
 
 void TradeOgreChart::jsonToSeries(QJsonObject &object) {
-    int diveder=1;
+    unsigned int diveder=1;
     // here u can provide diveder which u want to use
-    const unsigned char coin=1;
+    const unsigned char coin=7;
     switch (coin)
     {
-    case 1:
+    case 7:
         // Litoshi
         diveder=10e7;
         if (seriesBuy.attachedAxes().empty())
             axisxTitle.append(" (Litoshi)");
         break;
-    case 2:
+    case 5:
         // mLTC
         diveder=10e5;
         if (seriesBuy.attachedAxes().empty())
             axisxTitle.append(" (mLTC)");
         break;
-    case 3:
+    case 2:
         // µLTC
         diveder=10e2;
         if (seriesBuy.attachedAxes().empty())
