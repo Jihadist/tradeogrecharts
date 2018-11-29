@@ -2,12 +2,17 @@
 
 TradeOgreChart::TradeOgreChart(QWidget *parent) : QWidget(parent) {}
 
-void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
+int TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
 
   if (array2point(arg->readAll()))
     qDebug() << "Array2point was completed";
   else
+  {
     qDebug() << "Something went wrong with TrogChart::array2point";
+    arg->deleteLater();
+    return 1;
+  }
+  setPair();
 
   createChart();
   qDebug() << "Creating chart was completed";
@@ -25,7 +30,16 @@ void TradeOgreChart::receiveResponseFromAnotherClass(QNetworkReply *arg) {
 
   }
   arg->deleteLater();
+  return 1;
 
+}
+
+void TradeOgreChart::setPair(QString pair)
+{
+    auto list=new QStringList(pair.split("-"));
+    qDebug()<<axisxTitle.append(list->at(0));
+    qDebug()<<axisyTitle.append(list->at(1));
+    delete list;
 }
 
 /*int TradeOgreChart::receiveJsonFromAnotherClass(QJsonDocument document)
@@ -60,6 +74,12 @@ int TradeOgreChart::array2point(const QByteArray &array) {
   QJsonDocument document = QJsonDocument(QJsonDocument::fromJson(array));
 
   //qDebug() <<"Here is QJsonDocument from array2point"<<document;
+  if (document.isArray())
+  {
+    qDebug()<<"document is array";
+    JsonToMarkets(document);
+    return 0;
+  }
   QJsonObject root = QJsonObject(document.object());
 
   qDebug() << root.keys().at(0); // Выводит название первого объекта(покупка)
@@ -97,6 +117,19 @@ TradeOgreChart *TradeOgreChart::createChart() {
   chartView.resize(820, 600);
   qDebug() << "success";
   return this;
+}
+
+void TradeOgreChart::JsonToMarkets(QJsonDocument & root)
+{
+    QStringList markets;
+    for (auto array:root.array())
+    {
+        //qDebug()<<array.toObject().begin().key();
+        markets.push_back(array.toObject().begin().key());
+    }
+    qDebug()<<markets;
+    emit JsonToMarketsWasCompleted(markets);
+
 }
 
 void TradeOgreChart::jsonToSeries(QJsonObject &object) {

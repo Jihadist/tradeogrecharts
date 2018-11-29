@@ -7,23 +7,17 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
 
   ui->setupUi(this);
-//   connect(&mngr, SIGNAL(finished(QNetworkReply *)), this,
- //       SLOT(getResponse(QNetworkReply *)));
-  //connect(&mngr,SIGNAL(finished(QNetworkReply *)), &Network::manager,)
+
+  request=QNetworkRequest(QUrl("https://tradeogre.com/api/v1/markets"));
+  auto test = mngr.get(request); // Отправка get запроса
+  connect(ui->comboBox, &QComboBox::currentTextChanged, this, &MainWindow::onComboboxCurrentTextchanged);
 }
-
-
-//void MainWindow::getResponse(QNetworkReply *reply)
-//{
-//    //QByteArray answer=reply->readAll(); // Получение ответа
-//    //ui->plainTextEdit->setPlainText(reply->readAll()); // Вывод ответа на экран
-//    qDebug()<<"Response received";
-//    emit sendResponseToAnotherClass(reply->readAll()); // Посылаем сигнал, что ответ получен
 
 MainWindow::~MainWindow() { delete ui; }
 
 
 void MainWindow::on_pushButton_clicked() {
+
   request=QNetworkRequest(QUrl("https://tradeogre.com/api/v1/orders/LTC-TRTL"));
   auto test1 = mngr.get(request); // Отправка get запроса
   request=QNetworkRequest(QUrl("https://api.bilaxy.com/v1/depth?symbol=117"));
@@ -34,4 +28,15 @@ void MainWindow::on_pushButton_clicked() {
 
 }
 
+void MainWindow::receiveJsonToMarkets(QStringList &markets)
+{
+ ui->comboBox->addItems(markets);
+}
+
 void MainWindow::on_plainTextEdit_textChanged() {}
+
+void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
+{
+    qDebug()<<arg1;
+    //emit onComboboxCurrentTextchanged(arg1);
+}

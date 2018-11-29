@@ -42,7 +42,6 @@ class TradeOgreChart;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
-  // void friend json_to_series(QJsonObject &,QtCharts::QLineSeries *);
     friend class Network;
 public:
   explicit MainWindow(QWidget *parent = nullptr);
@@ -55,16 +54,18 @@ public:
 
 
 signals:
-  // void sendResponseToAnotherClass(const QByteArray &arg);
+  void onComboboxCurrentTextchanged(const QString &);
+
 public slots:
   void on_pushButton_clicked();
+  void receiveJsonToMarkets(QStringList &);
 
 private slots:
 
-  // void getResponse(QNetworkReply *reply);
-  //friend void Network::getResponse(QNetworkReply *reply);
-  //friend void Network::setUrl(const QString& url);
+
   void on_plainTextEdit_textChanged();
+
+  void on_comboBox_currentTextChanged(const QString &arg1);
 
 private:
   Ui::MainWindow *ui;

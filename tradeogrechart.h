@@ -39,10 +39,7 @@ public:
             QtCharts::QLineSeries *s)
       : chartView(cv), seriesBuy(b), seriesSell(s) {}
 
-  void setPair(QString primary_coin = "LTC", QString secondary_coin = "TRTL") {
-    axisxTitle.append(primary_coin);
-    axisyTitle.append(secondary_coin);
-  }
+
   int array2point(const QByteArray &); // Ненужная функция
   void
   jsonToSeries(QJsonObject &object); // Перевод из джейсона в линии графика
@@ -58,11 +55,14 @@ private:
   QString axisyTitle = "amount "; // Строка количества
   const QString mainTitle =
       "Tradeogre Orders Chart"; // Строка названия графика
-signals:
 
+  void JsonToMarkets(QJsonDocument &);
+signals:
+  void JsonToMarketsWasCompleted(QStringList &);
 public slots:
-  void receiveResponseFromAnotherClass(QNetworkReply *);
+  int receiveResponseFromAnotherClass(QNetworkReply *);
   //int receiveJsonFromAnotherClass(QJsonDocument);
+  void setPair(QString pair="LTC-TRTL");
 };
 
 #endif // TROGCHART_H

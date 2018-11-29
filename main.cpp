@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
                    b.get(),&bilaxychart::receiveResponseFromAnotherClass);
   QObject::connect(&network,&Network::responseFromTradeogre,
                    p.get(),&TradeOgreChart::receiveResponseFromAnotherClass);
+  QObject::connect(p.get(),&TradeOgreChart::JsonToMarketsWasCompleted,&w,&MainWindow::receiveJsonToMarkets);
+  QObject::connect(&w,&MainWindow::onComboboxCurrentTextchanged,p.get(),&TradeOgreChart::setPair);
   w.on_pushButton_clicked();
 
   return QApplication::exec();
